@@ -9,7 +9,7 @@ const config: Config = {
 
     url: "https://eugsh1.github.io",
 
-    baseUrl: "/cog",
+    baseUrl: "/Cog",
     trailingSlash: false,
 
     organizationName: "EugSh1",

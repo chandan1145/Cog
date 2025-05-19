@@ -58,7 +58,7 @@ Made with:
 ## Usage
 
 1. **Install**:
-    - ` npm install cog-http`
+    - `npm install cog-http`
 2. **Create server**:
     - Import and use the API to define routes, middleware, and handlers.
 3. **Run your server**:
@@ -66,7 +66,7 @@ Made with:
 
 ## Documentation
 
-The documentation is available on [https://eugsh1.github.io/cog](https://eugsh1.github.io/cog).
+The documentation is available on [https://eugsh1.github.io/Cog](https://eugsh1.github.io/Cog).
 
 ## License
 
