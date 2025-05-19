@@ -5,9 +5,9 @@ sidebar_position: 1
 # Introduction
 
 Welcome to the **Cog tutorial**.  
-Cog is a **tiny HTTP framework** built directly on top of Node.js’s native `http` module. It aims to
-provide a minimal, yet powerful foundation for building backend servers and APIs — without any
-runtime dependencies.
+Cog is an **ultra lightweight (17.2 kB unpacked) HTTP framework** built directly on top of Node.js’s
+native `http` module. It aims to provide a minimal, yet powerful foundation for building backend
+servers and APIs — without any runtime dependencies.
 
 If you’ve used frameworks like **Express**, you’ll feel right at home with Cog’s API.
 

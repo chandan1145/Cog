@@ -14,7 +14,7 @@
         "type": "git",
         "url": "https://github.com/EugSh1/Cog.git"
     },
-    "homepage": "https://eugsh1.github.io/cog",
+    "homepage": "https://eugsh1.github.io/Cog",
     "keywords": [
         "cog",
         "cog-http",
@@ -26,7 +26,8 @@
         "framework",
         "router",
         "node",
-        "nodejs"
+        "nodejs",
+        "api"
     ],
     "scripts": {
         "test": "node --import=tsx --test 'tests/**/*.test.ts'",

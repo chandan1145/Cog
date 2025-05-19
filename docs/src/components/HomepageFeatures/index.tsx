@@ -18,8 +18,8 @@ const FeatureList: FeatureItem[] = [
         description: <>Only relies on Node.js built-in modules.</>
     },
     {
-        title: "Middleware support",
-        description: <>Supports middleware functions for request processing</>
+        title: "Ultra Lightweight",
+        description: <>Only 17.2 kB unpacked — minimal abstraction over native Node.js HTTP.</>
     }
 ];
 
