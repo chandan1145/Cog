@@ -23,6 +23,16 @@ const config: Config = {
         locales: ["en"]
     },
 
+    headTags: [
+        {
+            tagName: "meta",
+            attributes: {
+                name: "google-site-verification",
+                content: "uPaxzUMiWyWpDzlap9HYVGU9GQjQdo_rrvtc_UzEgBI"
+            }
+        }
+    ],
+
     presets: [
         [
             "classic",
