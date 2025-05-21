@@ -455,3 +455,91 @@ describe("test setting headers", () => {
         strictEqual(response.headers.get("X-Another-Header"), "another-value");
     });
 });
+
+describe("test cookies", () => {
+    it("setting single cookie should work", async () => {
+        const { app, appPort } = setupApp();
+
+        app.get("/", (_, res) => {
+            res.setCookie("token", "f9a3e039-d605-4aea-a670-f1ab6b54b459");
+            res.send("Cookie set!");
+        });
+
+        const response = await fetch(`http://127.0.0.1:${appPort}`);
+        deepStrictEqual(response.headers.getSetCookie(), [
+            "token=f9a3e039-d605-4aea-a670-f1ab6b54b459"
+        ]);
+    });
+
+    it("setting cookie with options should work", async () => {
+        const { app, appPort } = setupApp();
+
+        app.get("/", (_, res) => {
+            res.setCookie("token", "f9a3e039-d605-4aea-a670-f1ab6b54b459", {
+                domain: "example.com",
+                expires: new Date(2077, 0, 1),
+                httpOnly: true,
+                maxAge: 60 * 60 * 60,
+                path: "/",
+                sameSite: "Lax",
+                secure: true
+            });
+            res.send("Cookie set!");
+        });
+
+        const response = await fetch(`http://127.0.0.1:${appPort}`);
+        deepStrictEqual(response.headers.getSetCookie(), [
+            "token=f9a3e039-d605-4aea-a670-f1ab6b54b459; Max-Age=216000; Domain=example.com; Path=/; Expires=Thu, 31 Dec 2076 21:00:00 GMT; HttpOnly; Secure; SameSite=Lax"
+        ]);
+    });
+
+    it("setting multiple cookies should work", async () => {
+        const { app, appPort } = setupApp();
+
+        app.get("/", (_, res) => {
+            res.setCookie("token", "f9a3e039-d605-4aea-a670-f1ab6b54b459", {
+                domain: "example.com"
+            });
+            res.setCookie("another_token", "945c7298-12c4-48fd-99f9-bf5021e2b65f");
+            res.send("Cookie set!");
+        });
+
+        const response = await fetch(`http://127.0.0.1:${appPort}`);
+        deepStrictEqual(response.headers.getSetCookie(), [
+            "token=f9a3e039-d605-4aea-a670-f1ab6b54b459; Domain=example.com",
+            "another_token=945c7298-12c4-48fd-99f9-bf5021e2b65f"
+        ]);
+    });
+
+    it("getting cookies should work", async () => {
+        const { app, appPort } = setupApp();
+
+        let receivedCookies = {};
+
+        app.get("/", (req, res) => {
+            receivedCookies = req.cookies;
+            res.send("Cookie received!");
+        });
+
+        await fetch(`http://127.0.0.1:${appPort}`, {
+            headers: {
+                Cookie: "sessionId=abc123; otherCookie=value"
+            }
+        });
+        deepStrictEqual(receivedCookies, { sessionId: "abc123", otherCookie: "value" });
+    });
+
+    it("clearing cookie should work", async () => {
+        const { app, appPort } = setupApp();
+
+        app.get("/", (_, res) => {
+            res.clearCookie("token");
+            res.send("Cookie removed!");
+        });
+
+        const response = await fetch(`http://127.0.0.1:${appPort}`);
+        deepStrictEqual(response.headers.getSetCookie(), [
+            "token=; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+        ]);
+    });
+});

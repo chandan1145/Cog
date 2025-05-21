@@ -22,3 +22,13 @@ export type RequestHandler = (req: IncomingMessage & { url: string }, res: Serve
 export type RequestMethod = "GET" | "POST" | "PUT" | "DELETE" | "HEAD" | "OPTIONS" | "PATCH";
 
 export type StringOrJSON = string | Record<string, unknown> | unknown[];
+
+export type CookieOptions = {
+    maxAge?: number;
+    expires?: Date;
+    path?: string;
+    secure?: boolean;
+    domain?: string;
+    httpOnly?: boolean;
+    sameSite?: "Strict" | "Lax" | "None";
+};

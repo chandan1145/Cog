@@ -8,7 +8,7 @@ import type {
     StringOrJSON
 } from "./types";
 import { Router } from "./router";
-import { normalizePath } from "./utils";
+import { normalizePath, parseCookies } from "./utils";
 
 export class Cog {
     private server: Server;
@@ -25,6 +25,8 @@ export class Cog {
 
             const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
             req.query = Object.fromEntries(parsedUrl.searchParams);
+
+            req.cookies = parseCookies(req.headers.cookie);
 
             try {
                 req.body = (await this.parseRequestBody(req, res)) as StringOrJSON;

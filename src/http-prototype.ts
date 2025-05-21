@@ -1,4 +1,6 @@
 import { ServerResponse } from "http";
+import type { CookieOptions } from "./types";
+import { toCookieString } from "./utils";
 
 ServerResponse.prototype.send = function (data, status = 200) {
     if (typeof data === "object" || Array.isArray(data)) {
@@ -22,4 +24,28 @@ ServerResponse.prototype.set = function (
     } else {
         throw new Error("Invalid arguments of res.set");
     }
+};
+
+ServerResponse.prototype.setCookie = function (
+    name: string,
+    value: string,
+    cookieOptions?: CookieOptions
+) {
+    const cookieString = toCookieString(name, value, cookieOptions);
+    const currentCookies = this.getHeader("Set-Cookie");
+
+    if (!currentCookies) {
+        this.setHeader("Set-Cookie", cookieString);
+    } else if (Array.isArray(currentCookies)) {
+        this.setHeader("Set-Cookie", [...currentCookies, cookieString]);
+    } else {
+        this.setHeader("Set-Cookie", [currentCookies as string, cookieString]);
+    }
+};
+
+ServerResponse.prototype.clearCookie = function (name: string, options: CookieOptions = {}) {
+    this.setCookie(name, "", {
+        ...options,
+        expires: new Date(0)
+    });
 };
